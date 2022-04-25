@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Authors</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="navbar d-flex justify-content-end mr-5 mt-2">
+        <a href="/">View All Books</a>
+        <a class = "ml-3 text-right" href="/authors">View All Authors</a>
+    </div>
+    <div class="container d-flex justify-content-center justify-content-around mt-5">
+        <div class="card border-0 col-5">
+            <h1 class="mb-4">{{ author.first_name }} {{ author.last_name }}'s Favorite Books</h1>
+            <table class="table mx-auto mt-3">
+                <thead class="">
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody class="table-secondary">
+                    {% for book in author.book.all %}
+                        <tr>
+                            <td><a href="/books/{{ book.id }}">{{ book.title }}</a></td>
+                            <td>{{ book.desc }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="card border-0 col-5">
+            <h1 class="mb-4">Add Author's Favorite Books</h1>
+            <form action="/authors/{{author.id}}" method="post">
+                {%  csrf_token %}
+                <!-- <input type="hidden" name="author" value="{{author.id}}"> -->
+                <div class="mb-3 form-group d-flex align-items-center">
+                    <label for="book">Book:</label>
+                    <select name="book" class="" >
+                        <option value=""></option>
+                        {% for book in books %}
+                            {% if author not in book.authors.all%}
+                                <option value="{{book.id}}">{{book.title}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <button class="btn btn-primary mb-3" value="Add Book">Add</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

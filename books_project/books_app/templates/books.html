@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="navbar d-flex justify-content-end mr-5 mt-2">
+        <a class = "text-right" href="/authors">View All Authors</a>
+    </div>
+    <div class="container d-flex justify-content-center justify-content-around mt-2">
+        <div class="card border-0 col-3">
+            <h1 class="mb-4">Add New Book</h1>
+            <form action="/" method="post">
+                {% csrf_token %}
+                <div class="mb-3 form-group d-flex align-items-center">
+                    <label for="title" class="form-label col-4">Book Title:</label>
+                    <input type="text" class="form-control border border-dark col-4" name="title">
+                </div>
+                <div class="mb-3 form-group d-flex align-items-center">
+                    <label for="desc" class="form-label col-4">Description:</label>
+                    <textarea type="text" class="form-control border border-dark col-4" name="desc" cols="30" rows="5"></textarea>
+                </div>
+                <button class="btn btn-primary" value="Create Book" >Create</button>
+            </form>
+        </div>
+        <div class="card border-0 col-5">
+            <h1 class="mb-4">All Books</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in books %}
+                        <tr>
+                            <td>{{book.id}}</td>
+                            <td>{{book.title}}</td>
+                            <td><a href="/books/{{ book.id }}">View</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
